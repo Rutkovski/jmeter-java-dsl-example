@@ -1,0 +1,86 @@
+plugins {
+    id 'java'
+//    id 'io.freefair.lombok' version '8.10.2'
+}
+group = 'ru.rustore'
+version = '1.0-SNAPSHOT'
+repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+ext {
+    projectBuildSourceEncoding = 'UTF-8'
+    projectReportingOutputEncoding = 'UTF-8'
+}
+
+dependencies {
+//    implementation 'org.projectlombok:lombok:1.18.34'
+//    implementation 'org.projectlombok:lombok:1.18.34'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.36'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.9.0'
+    testImplementation 'io.github.cdimascio:dotenv-java:2.2.4'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+    testImplementation 'org.postgresql:postgresql:42.7.2'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-core:2.15.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.0'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.23'
+    implementation 'org.apache.commons:commons-configuration2:2.10.1'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+
+    testImplementation("us.abstracta.jmeter:jmeter-java-dsl:1.29.1") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
+    testImplementation("us.abstracta.jmeter:jmeter-java-dsl-jdbc:1.29.1") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+        displayGranularity = 0
+    }
+    systemProperty 'file.encoding', 'UTF-8'
+    jvmArgs '-Xms1g', '-Xmx7g', '-Duser.language=en', '-Duser.country=US'
+
+    String tags = findPropertyOrEnv("TAGS")
+    if (tags != null) {
+        useJUnitPlatform {
+            println("Selected tests: Only tag '$tags'")
+            includeTags(tags)
+        }
+    }
+}
+
+tasks.withType(ProcessResources).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+sourceSets {
+    test {
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+}
+
+// Функция для поиска свойств или переменных окружения
+def findPropertyOrEnv(String name) {
+    return project.hasProperty(name) ? project.property(name) : System.getenv(name)
+}
