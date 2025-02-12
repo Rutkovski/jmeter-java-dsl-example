@@ -10,26 +10,15 @@ gradle clean test -PTAGS=google-smoke
 docker build  -t jmeter-java-dsl:v1.0 .
 
 Запустить контейнер:
-docker run -v ./src:/tests/src -v ./build.gradle:/tests/build.gradle -it -t jmeter-java-dsl:v1.0 sh
+docker run -v ./src:/tests/src -it -t jmeter-java-dsl:v1.0 sh
 
-Внутри контейнера проверить, что затянулись закэшированные зависимости
-ls -lAh /home/gradle/.gradle/caches/modules-2/files-2.1
 
-Проверить что тест запускается из-под контейнера выполнив внутри его
-gradle clean test -PTAGS=google-smoke
-
-Если в логе увидел что-то в духе ниже, то тест выполнился успешно:
-Gradle Test Run :test > Gradle Test Executor 1 > AppTests > smokeTest() STANDARD_OUT
-+     69 in 00:00:23 =    3.0/s Avg:   987 Min:   797 Max:  1968 Err:     0 (0.00%) Active: 3 Started: 3 Finished: 0
-
-Теперь попробовать запустить в оффлайн режиме (добавить команду --offline или выключить интернет)
+Теперь попробовать запустить в оффлайн режиме (добавить команду --offline)
 gradle clean test -PTAGS=google-smoke --offline
 
-Если ты уже запускал в первый раз, то так должно сработать!
-
-Теперь попробовать выйти из контейнера и вновь создать его:
-docker run -v ./src:/tests/src -v ./build.gradle:/tests/build.gradle -it -t jmeter-java-dsl:v1.0 sh
-И сразу запустить с параметром --offline
+Теперь попробовать выйти из контейнера и вновь создать его на основе образа из репозитория:
+docker run -v ./src:/tests/src -v ./build.gradle:/tests/build.gradle -it -t registry-gitlab.corp.mail.ru/rustore-tools/jmeter-java-dsl:v1.0-gradle sh
+И  запустить тест
 gradle clean test -PTAGS=google-smoke --offline
 
 !!!!И ЗДЕСЬ МЫ ПОЛУЧАЕМ ОШИБКУ
@@ -43,5 +32,3 @@ Execution failed for task ':compileTestJava'.
 > Could not download jmeter-plugins-random-csv-data-set-0.8.jar (com.blazemeter:jmeter-plugins-random-csv-data-set:0.8): No cached version available for offlin...
 > 
 
-Т.е. зависимости вроде как закэшировались на этапе сборки, и есть внутри контейнера, но градл их не видит, если запускаешь без параметра --offline то он их выкачивает и дальше работает нормально
-Задача: сделать так, чтобы собранный образ мог запускаться offline, т.к. на прод среде у него не будет доступа к интернету
