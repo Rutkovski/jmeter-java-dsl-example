@@ -16,14 +16,10 @@ ext {
 }
 
 dependencies {
-//    implementation 'org.projectlombok:lombok:1.18.34'
-//    implementation 'org.projectlombok:lombok:1.18.34'
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
-
     testCompileOnly 'org.projectlombok:lombok:1.18.36'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
-
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter:5.11.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
@@ -83,4 +79,12 @@ sourceSets {
 // Функция для поиска свойств или переменных окружения
 def findPropertyOrEnv(String name) {
     return project.hasProperty(name) ? project.property(name) : System.getenv(name)
+}
+
+tasks.register('cacheAllDependencies') {
+    doLast {
+        configurations.findAll { config -> config.canBeResolved }.each { config ->
+            config.resolve()
+        }
+    }
 }

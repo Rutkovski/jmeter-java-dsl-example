@@ -156,7 +156,7 @@ public abstract class BaseLoadTest {
         validateSamplerMethodsExist(samplerFactory);
         TEST_PLAN_ELEMENTS.addAll(commonElements(TITLE, INFLUX_URL));
         var methodsForSmokeTest = getMethodsForTest(samplerFactory, false);
-        TEST_PLAN_ELEMENTS.add(threadGroup("smoke", 3, Duration.ofSeconds(30), methodsForSmokeTest.toArray(new BaseThreadGroup.ThreadGroupChild[0])));
+        TEST_PLAN_ELEMENTS.add(threadGroup("smoke", 3, Duration.ofSeconds(10), methodsForSmokeTest.toArray(new BaseThreadGroup.ThreadGroupChild[0])));
         var stats = testPlan(TEST_PLAN_ELEMENTS.toArray(DslTestPlan.TestPlanChild[]::new)).run();
         assertSmokeTest(stats);
     }
