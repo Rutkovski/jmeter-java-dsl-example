@@ -10,7 +10,7 @@ import static us.abstracta.jmeter.javadsl.JmeterDsl.threadGroup;
 @Tag("google")
 public class AppTests extends BaseLoadTest {
 
-    private static final String APP_NAME = "googletest";
+    private static final String APP_NAME = "google";
     private final SamplerFactory samplers;
 
     public AppTests() {

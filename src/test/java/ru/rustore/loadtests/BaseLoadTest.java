@@ -79,7 +79,7 @@ public abstract class BaseLoadTest {
         testPlanChildren.add(httpCache().disable());
         testPlanChildren.add(httpCookies().disable());
 //add listeners
-        testPlanChildren.add(influxDbListener(influxUrl).application(application));
+//        testPlanChildren.add(influxDbListener(influxUrl).application(application));
         testPlanChildren.add(htmlReporter(REPORT_PATH, "httpReport"));
         testPlanChildren.add(jtlWriter(REPORT_PATH, "JtlResults.jtl").withAssertionResults(false).withSampleAndErrorCounts(true).withHostname(true));
         testPlanChildren.add(jtlWriter(REPORT_PATH, "JtlErrors.jtl").logOnly(JtlWriter.SampleStatus.ERROR).saveAsXml(true).withResponseData(true));
