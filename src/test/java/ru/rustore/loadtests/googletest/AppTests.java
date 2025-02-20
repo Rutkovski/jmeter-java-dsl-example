@@ -10,12 +10,12 @@ import static us.abstracta.jmeter.javadsl.JmeterDsl.threadGroup;
 @Tag("google")
 public class AppTests extends BaseLoadTest {
 
-    private static final String APP_NAME = "automationpractice";
+    private static final String APP_NAME = "google";
     private final SamplerFactory samplers;
 
     public AppTests() {
         super(APP_NAME);
-        this.samplers = new SamplerFactory("http://automationpractice.com");
+        this.samplers = new SamplerFactory("http://google.com");
         TEST_PLAN_ELEMENTS.addAll(getSpecialElements(CONFIG));
     }
 
@@ -36,7 +36,7 @@ public class AppTests extends BaseLoadTest {
     @Tag(APP_NAME + "-debug")
     public void debugTest() throws Exception {
         TEST_PLAN_ELEMENTS.add(threadGroup("debug", 1, 1,
-                samplers.getAutomationpracticeCom()
+                samplers.getGoogleCom()
         ));
         runStdDebugTest();
     }
