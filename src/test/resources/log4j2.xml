@@ -9,9 +9,9 @@
         <Root level="INFO">
             <AppenderRef ref="Console"/>
         </Root>
-        <Logger name="org.eclipse.jetty" level="WARN"/>
-        <Logger name="kg.apc.jmeter.timers.VariableThroughputTimer" level="ERROR"/>
-        <Logger name="com.blazemeter.jmeter.control.VirtualUserController" level="WARN"/>
-        <Logger name="org.apache.jmeter" level="WARN"/>
+        <Logger name="org.eclipse.jetty" level="INFO"/>
+        <Logger name="kg.apc.jmeter.timers.VariableThroughputTimer" level="INFO"/>
+        <Logger name="com.blazemeter.jmeter.control.VirtualUserController" level="INFO"/>
+        <Logger name="org.apache.jmeter" level="INFO"/>
     </Loggers>
 </Configuration>
