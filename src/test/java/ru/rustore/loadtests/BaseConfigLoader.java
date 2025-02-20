@@ -25,16 +25,11 @@ public class BaseConfigLoader {
     }
 
     public void loadEnvironmentVariables() {
-        // Инициализируем карту переменных окружения из файла конфигурации
         environmentVariables = new HashMap<>();
         Configuration config = loadConfiguration(BASE_CONFIG);
-        // Добавляем переменные из файла конфигурации с самым низким приоритетом
         config.getKeys().forEachRemaining(key -> environmentVariables.put(key, config.getString(key)));
-        // Добавляем переменные из .env и обновляем
         dotenv.entries().forEach(entry -> environmentVariables.put(entry.getKey(), entry.getValue()));
-        // Добавляем системные переменные окружения и обновляем
         environmentVariables.putAll(System.getenv());
-        // Загружаем переменные свойств, переданные при запуске, и обновляем
         System.getProperties().forEach((key, value) -> environmentVariables.put((String) key, (String) value));
     }
 
@@ -53,7 +48,6 @@ public class BaseConfigLoader {
         }
     }
 
-    // Метод для получения значения переменной окружения по ключу
     public String getVar(String key) {
         return environmentVariables.get(key);
     }

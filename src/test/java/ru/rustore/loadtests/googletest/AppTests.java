@@ -10,19 +10,25 @@ import static us.abstracta.jmeter.javadsl.JmeterDsl.threadGroup;
 @Tag("google")
 public class AppTests extends BaseLoadTest {
 
-    private static final String APP_NAME = "google";
+    private static final String APP_NAME = "automationpractice";
     private final SamplerFactory samplers;
 
     public AppTests() {
         super(APP_NAME);
-        this.samplers = new SamplerFactory("http://google.com");
+        this.samplers = new SamplerFactory("http://automationpractice.com");
         TEST_PLAN_ELEMENTS.addAll(getSpecialElements(CONFIG));
     }
 
     @Test
     @Tag(APP_NAME + "-smoke")
     public void smokeTest() throws Exception {
-        runStdSmokeTest(samplers);
+        runStdStableTest(samplers);
+    }
+
+    @Test
+    @Tag(APP_NAME + "-stable")
+    public void stableTest() throws Exception {
+        runStdStableTest(samplers);
     }
 
 
@@ -30,7 +36,7 @@ public class AppTests extends BaseLoadTest {
     @Tag(APP_NAME + "-debug")
     public void debugTest() throws Exception {
         TEST_PLAN_ELEMENTS.add(threadGroup("debug", 1, 1,
-                samplers.getGooogleCom()
+                samplers.getAutomationpracticeCom()
         ));
         runStdDebugTest();
     }

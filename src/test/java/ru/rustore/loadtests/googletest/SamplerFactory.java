@@ -16,10 +16,9 @@ public class SamplerFactory extends BaseSamplerFactory {
         super(baseUrlPath);
     }
 
-    public DslHttpSampler getGooogleCom() {
-        return httpSampler("GET google.com",BASE_URL + "/");
+    public DslHttpSampler getAutomationpracticeCom() {
+        return httpSampler("GET http://automationpractice.com/",BASE_URL + "/");
     }
-
 
 
 }

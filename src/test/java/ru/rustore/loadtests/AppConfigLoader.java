@@ -21,7 +21,6 @@ public class AppConfigLoader extends BaseConfigLoader {
     }
 
     private void loadConfigValues(Configuration config) {
-        // Перебираем все ключи конфигурации и добавляем их в environmentVariables
         for (Iterator<String> it = config.getKeys(); it.hasNext(); ) {
             String key = it.next();
             environmentVariables.put(key, config.getString(key));
